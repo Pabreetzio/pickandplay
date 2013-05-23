@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickAndPlay", "PickAndPlay\PickAndPlay.csproj", "{C0059A02-8DD9-4EF7-A370-F3C25E65109D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickAndPlay.Tests", "PickAndPlay.Tests\PickAndPlay.Tests.csproj", "{450C350D-5EB3-43B2-898B-75BAB3862916}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{276E8679-8228-45FA-882F-408384E30329}"
+	ProjectSection(SolutionItems) = preProject
+		DesignPlans.md = DesignPlans.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0059A02-8DD9-4EF7-A370-F3C25E65109D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0059A02-8DD9-4EF7-A370-F3C25E65109D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0059A02-8DD9-4EF7-A370-F3C25E65109D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0059A02-8DD9-4EF7-A370-F3C25E65109D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{450C350D-5EB3-43B2-898B-75BAB3862916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{450C350D-5EB3-43B2-898B-75BAB3862916}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{450C350D-5EB3-43B2-898B-75BAB3862916}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{450C350D-5EB3-43B2-898B-75BAB3862916}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
