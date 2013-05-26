@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace PickAndPlay
 {
-    class Square
+    public class Square
     {
-        string Name { get; set; }
+        public string Name { get; set; }
+        public SquareBoard Board { get; set; }
+        public Length Width { get; set; }
+        public Length Length { get { return Width; } }
+        public Square(string name, SquareBoard board)
+        {
+            Name = name;
+            Board = board;
+            Length boardWidth = Board.Width;
+            Width = boardWidth / Board.DivisionsPerSide;
+        }
     }
 }
