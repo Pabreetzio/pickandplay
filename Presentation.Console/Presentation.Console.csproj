@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C0059A02-8DD9-4EF7-A370-F3C25E65109D}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{5409983F-FA6D-45D5-AB95-126A9BA56197}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PickAndPlay</RootNamespace>
-    <AssemblyName>PickAndPlay</AssemblyName>
+    <RootNamespace>Presentation.Console</RootNamespace>
+    <AssemblyName>Presentation.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\AngryElectron\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,26 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config.cs" />
-    <Compile Include="GameState.cs" />
-    <Compile Include="GCoderSender.cs" />
-    <Compile Include="Move.cs" />
-    <Compile Include="PickAndPlaySettings.cs" />
-    <Compile Include="Point.cs" />
-    <Compile Include="PickAndPlayService.cs" />
-    <Compile Include="SimpleMove.cs" />
-    <Compile Include="StandardChessSet.cs" />
-    <Compile Include="Length.cs" />
-    <Compile Include="PiecePlacer.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Square.cs" />
-    <Compile Include="SquareBoard.cs" />
-    <Compile Include="Piece.cs" />
-    <Compile Include="PiecePlacement.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AlgebraicNotatator.cs" />
-    <Compile Include="StandardChessPiece.cs" />
-    <Compile Include="StandardSide.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PickAndPlay\PickAndPlay.csproj">
+      <Project>{c0059a02-8dd9-4ef7-a370-f3c25e65109d}</Project>
+      <Name>PickAndPlay</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

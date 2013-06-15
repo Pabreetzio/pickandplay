@@ -25,6 +25,10 @@ namespace PickAndPlay
                     }
                 );
         }
+        public void addMove(SimpleMove simpleMove)
+        {
+            SimpleMoves.Add(simpleMove);
+        }
 
     }
 }

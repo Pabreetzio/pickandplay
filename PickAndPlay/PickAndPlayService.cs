@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 
 namespace PickAndPlay
 {
-    public class ReversibleNotationToGCodeService
+    public class PickAndPlayService
     {
         #region private fields
         PickAndPlaySettings Settings;
         SquareBoard Board;
         IEnumerable<Square> Squares;
-        GCoderSender Sender;
+        GameState State;
         #endregion
 
-        public ReversibleNotationToGCodeService(PickAndPlaySettings settings)
+        public GCoderSender Sender {get;set;}
+
+        public PickAndPlayService(PickAndPlaySettings settings)
         {
             Settings = settings;
             Board = new SquareBoard(settings.BoardSize);
@@ -25,10 +27,12 @@ namespace PickAndPlay
             Sender.Start();
             Sender.SendHome();
             Sender.SetSepeed(Settings.Speed);
+            State = new GameState();
         }
 
         public void IssueMove(string move){
             IssueGCodeCommands(GetMove(move));
+            State.PlyCount++;
         }
 
         public Move GetMove(string moveString)
@@ -37,10 +41,22 @@ namespace PickAndPlay
             ////Nc1-Nd3
             if (isCapture(moveString))
             {
-
+                List<string> captureMoveString = moveString.Split(new Char[] { 'x' }).ToList();
+                Piece capturingPiece = getPiece(captureMoveString[0]);
+                Square capturingPieceStartingSquare = getSquare(captureMoveString[0]);
+                Piece capturedPiece = getPiece(captureMoveString[1]);
+                Square capturedOnSquare = getSquare(captureMoveString[1]);
+                SimpleMove removeCapturedPiece = new SimpleMove() 
+                    {Piece = capturedPiece, StartingSquare = capturedOnSquare, EndingSquare = State.getDiscardSquare(Squares)};
+                SimpleMove moveToCapturedSquare = new SimpleMove()
+                    { Piece = capturingPiece, StartingSquare = capturingPieceStartingSquare, EndingSquare = capturedOnSquare };
+                move.addMove(removeCapturedPiece);
+                State.NotifyPieceWasTaken();
+                move.addMove(moveToCapturedSquare);
             }
             else if (isCastle(moveString))
             {
+                    move = GetCastleMove(moveString);
             }
             else
             {
@@ -50,6 +66,29 @@ namespace PickAndPlay
             }
               
             return move;
+        }
+
+        private Move GetCastleMove(string moveString)
+        {
+            string castleRowForPlayer = State.IsPlayer1Turn ? "1" : "8";
+            SimpleMove castleToKing;
+            SimpleMove kingThroughCastle;
+            if (IsQueenSideCastle(moveString))
+            {
+                castleToKing = new SimpleMove() { Piece = getPiece("R"), StartingSquare = getSquare("a" + castleRowForPlayer), EndingSquare = getSquare("d" + castleRowForPlayer) };
+                kingThroughCastle = new SimpleMove() { Piece = getPiece("K"), StartingSquare = getSquare("e" + castleRowForPlayer), EndingSquare = getSquare("c" + castleRowForPlayer) };
+            }
+            else
+            {
+                castleToKing = new SimpleMove() { Piece = getPiece("R"), StartingSquare = getSquare("h" + castleRowForPlayer), EndingSquare = getSquare("f" + castleRowForPlayer) };
+                kingThroughCastle = new SimpleMove() { Piece = getPiece("K"), StartingSquare = getSquare("e" + castleRowForPlayer), EndingSquare = getSquare("g" + castleRowForPlayer) };
+            }
+            return new Move() { SimpleMoves = new List<SimpleMove> { castleToKing, kingThroughCastle } };
+        }
+
+        private bool IsQueenSideCastle(string moveString)
+        {
+            return (moveString == "0-0-0" || moveString == "O-O-O");
         }
 
         public void IssueGCodeCommands(Move move)
@@ -62,23 +101,43 @@ namespace PickAndPlay
 
         public void IssueGCodeCommands(SimpleMove move)
         {
-            int sleepLength = 2000;
             Sender.GoTo(move.StartingSquare.Center.X, move.StartingSquare.Center.Y, Settings.LiftHeight);
-            System.Threading.Thread.Sleep(sleepLength);
+            System.Threading.Thread.Sleep(Settings.MoveWait);
             Sender.GoTo(move.StartingSquare.Center.X, move.StartingSquare.Center.Y, Settings.PieceHeight);
-            System.Threading.Thread.Sleep(sleepLength);
+            System.Threading.Thread.Sleep(Settings.DropWait);
             Sender.Pick();
-            System.Threading.Thread.Sleep(sleepLength);
+            System.Threading.Thread.Sleep(Settings.MoveWait);
             Sender.GoTo(move.StartingSquare.Center.X, move.StartingSquare.Center.Y, Settings.LiftHeight);
-            System.Threading.Thread.Sleep(sleepLength);
-            Sender.GoTo(move.EndingSquare.Center.X, move.EndingSquare.Center.Y, Settings.PieceHeight);
-            System.Threading.Thread.Sleep(sleepLength);
-            Sender.Play();
-            System.Threading.Thread.Sleep(sleepLength);
+            System.Threading.Thread.Sleep(Settings.MoveWait);
             Sender.GoTo(move.EndingSquare.Center.X, move.EndingSquare.Center.Y, Settings.LiftHeight);
-            System.Threading.Thread.Sleep(sleepLength);
-            Sender.SendHome();
-            System.Threading.Thread.Sleep(sleepLength);
+            System.Threading.Thread.Sleep(Settings.MoveWait);
+            Sender.GoTo(move.EndingSquare.Center.X, move.EndingSquare.Center.Y, Settings.PieceHeight);
+            System.Threading.Thread.Sleep(Settings.MoveWait);
+            Sender.Play();
+            System.Threading.Thread.Sleep(Settings.DropWait);
+            Sender.GoTo(move.EndingSquare.Center.X, move.EndingSquare.Center.Y, Settings.LiftHeight);
+            System.Threading.Thread.Sleep(Settings.MoveWait);
+            
+        }
+
+        public void TestPosition(string squareString)
+        {
+            Square squareToMoveTo = null;
+            foreach (Square square in Squares)
+            {
+                if (square.Name == squareString)
+                {
+                    squareToMoveTo = square;
+                }
+            }
+            if (squareToMoveTo != null)
+            {
+                Sender.GoTo(squareToMoveTo.Center.X, squareToMoveTo.Center.Y, Settings.PieceHeight);
+            }
+            else
+            {
+                throw new Exception("Could not find square.");
+            }
         }
 
         #region GetMove helpers
@@ -90,7 +149,7 @@ namespace PickAndPlay
 
         private bool isCastle(string move)
         {
-            return move.Contains('0');
+            return (move.Contains('0') || move.Contains('O'));
         }
 
         private Piece getPiece(string move)
@@ -145,6 +204,13 @@ namespace PickAndPlay
         }
 
         #endregion
+
+        ~PickAndPlayService()
+        {
+            Sender.SendHome();
+            Sender.MotorsOff();
+            Sender.Disconnect();
+        }
 
     }
 }

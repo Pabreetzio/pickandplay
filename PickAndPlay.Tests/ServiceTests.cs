@@ -9,13 +9,13 @@ namespace PickAndPlay.Tests
     public class ServiceTests
     {
         PickAndPlaySettings Settings;
-        ReversibleNotationToGCodeService Service;
+        PickAndPlayService Service;
         [TestInitialize]
         public void Initialize()
         {
             string text = System.IO.File.ReadAllText(@"TestConfig.txt");
             Settings = JsonConvert.DeserializeObject<PickAndPlaySettings>(text);
-            Service = new ReversibleNotationToGCodeService(Settings);
+            Service = new PickAndPlayService(Settings);
         }
 
         [TestMethod]

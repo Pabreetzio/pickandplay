@@ -12,5 +12,6 @@ namespace PickAndPlay
         public double Speed { get; set; }
         public double LiftHeight { get; set; }
         public int DropWait { get; set; }
+        public int MoveWait { get; set; }
     }
 }
