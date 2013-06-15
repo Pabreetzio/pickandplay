@@ -103,5 +103,10 @@ namespace PickAndPlay
             return obj is Length && (obj as Length).Millimeters == Millimeters;
         }
         #endregion
+
+        public static implicit operator Length(double value)
+        {
+            return new Length(value);
+        }
     }
 }

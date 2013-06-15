@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace PickAndPlay
 {
-    class SquareNamer
+    public class Player
     {
+        public string Name { get; set; }
     }
 }

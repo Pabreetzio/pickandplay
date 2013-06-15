@@ -1,0 +1,8 @@
+﻿{
+	 BoardSize: 177.5
+	 , Speed: 2000
+	 , PieceHeight: 36
+	 , LiftHeight: 120
+	, DropWait: 5000
+
+}

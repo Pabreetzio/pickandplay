@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -52,12 +55,23 @@
   <ItemGroup>
     <Compile Include="LengthTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GSharpCodeTests.cs" />
+    <Compile Include="AlgebraicNotationTests.cs" />
+    <Compile Include="ServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PickAndPlay\PickAndPlay.csproj">
       <Project>{c0059a02-8dd9-4ef7-a370-f3c25e65109d}</Project>
       <Name>PickAndPlay</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestConfig.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

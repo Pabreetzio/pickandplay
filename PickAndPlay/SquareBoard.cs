@@ -22,11 +22,13 @@ namespace PickAndPlay
         }
         public SquareBoard()
         {
-
+            Width = 152;
+            DivisionsPerSide = 8;
         }
         public SquareBoard(Length width)
         {
             Width = width;
+            DivisionsPerSide = 8;
         }
         public int DivisionsPerSide { get; set; }
     }

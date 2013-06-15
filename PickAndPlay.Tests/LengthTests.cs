@@ -29,5 +29,6 @@ namespace PickAndPlay.Tests
             Length l1 = new Length(7);
             Assert.AreEqual(new Length(5), d1 / l1);
         }
+
     }
 }

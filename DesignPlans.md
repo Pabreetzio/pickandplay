@@ -30,3 +30,9 @@ algebraic notation vs descriptive notation
 From Notation to piece, starting square, ending square. 
 From piece starting square to ending square to gcode.
 
+#Newer Plans
+##configurable
+Whole solution is a a bunch of configurable pieces that work together to interpret moves
+and send out the gcode commands that make the bot move.
+Need default just for testing, but you can send in commands to the library to dynamically change
+the default settings. 

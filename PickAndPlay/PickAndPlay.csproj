@@ -39,13 +39,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
+    <Compile Include="GCoderSender.cs" />
+    <Compile Include="Move.cs" />
+    <Compile Include="PickAndPlaySettings.cs" />
+    <Compile Include="Point.cs" />
+    <Compile Include="ReversibleNotationToGCodeService.cs" />
+    <Compile Include="SimpleMove.cs" />
+    <Compile Include="StandardChessSet.cs" />
     <Compile Include="Length.cs" />
+    <Compile Include="PiecePlacer.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="SquareBoard.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="PiecePlacement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SquareNamer.cs" />
+    <Compile Include="AlgebraicNotatator.cs" />
+    <Compile Include="StandardChessPiece.cs" />
+    <Compile Include="StandardSide.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
